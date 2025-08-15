@@ -1,79 +1,228 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QueueLoop - Automated 3D Printing Management</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        header {
-            background: #0d6efd;
-            color: white;
-            padding: 20px 40px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        header p {
-            font-size: 1.2em;
-        }
-        main {
-            padding: 40px;
-            max-width: 900px;
-            margin: auto;
-        }
-        .cta {
-            background: #0d6efd;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
-            border-radius: 6px;
-        }
-        .cta:hover {
-            background: #084298;
-        }
-        footer {
-            background: #222;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 50px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>QueueLoop — Turn orders into prints automatically</title>
+  <meta name="description" content="QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish, and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger." />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%230F172A%27/%3E%3Cpath d=%27M30 50a20 20 0 1040 0 20 20 0 10-40 0z%27 fill=%27%232F6DF6%27/%3E%3C/svg%3E" />
+  <meta property="og:title" content="QueueLoop — Turn orders into prints automatically" />
+  <meta property="og:description" content="Connect your store to your printers. Auto-queue jobs, AMS-aware color mapping, optional auto-eject." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://queueloop.com" />
+  <!-- If you later host an og image, update the line below -->
+  <meta property="og:image" content="https://queueloop.com/og.jpg" />
+  <!-- Analytics / Pixels placeholders -->
+  <!-- <script>/* GA4 / TikTok Pixel here later */</script> -->
 </head>
 <body>
-    <header>
-        <h1>QueueLoop</h1>
-        <p>Automating Your 3D Printing Business — From Order to Output</p>
-    </header>
+<header class="nav">
+  <div class="container nav-row">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <span class="brand-text">QueueLoop</span>
+    </div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
 
-    <main>
-        <h2>Streamline Your 3D Printing</h2>
-        <p>QueueLoop is the ultimate automation platform for makers and sellers. Connect your store, manage multiple printers, and fulfill orders with zero downtime.</p>
-        
-        <h3>Key Features</h3>
-        <ul>
-            <li>Automated print queue management</li>
-            <li>Seamless integration with Etsy, TikTok Shop, Shopify</li>
-            <li>Multi-printer optimization</li>
-            <li>Easy setup — no coding required</li>
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <h1>Turn orders into prints — automatically.</h1>
+        <p class="lead">
+          QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
+          and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
+        </p>
+        <form class="cta" action="https://formspree.io/f/REPLACE" method="POST">
+          <input aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit">Join the Waitlist</button>
+        </form>
+        <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
+        <div class="badges">
+          <span>🔒 LAN control available</span>
+          <span>⚙️ AMS-aware workflows</span>
+          <span>🚀 Built for TikTok & Etsy sellers</span>
+          <span>🧠 Failure-aware modes (optional)</span>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="mock">
+          <div class="mock-bar"></div>
+          <div class="mock-body">
+            <div class="mock-list">
+              <div class="mock-item">
+                <span class="dot dot-green"></span>
+                Etsy — Order #10422 → <strong>Queued</strong>
+              </div>
+              <div class="mock-item">
+                <span class="dot dot-blue"></span>
+                TikTok — Order #77819 → <strong>Printing</strong>
+              </div>
+              <div class="mock-item">
+                <span class="dot dot-amber"></span>
+                Shopify — Order #55301 → <strong>Cooling</strong>
+              </div>
+              <div class="mock-item">
+                <span class="dot dot-slate"></span>
+                Bambu P1S — Job 47 → <strong>Ejected</strong>
+              </div>
+            </div>
+            <div class="mock-queue">
+              <div class="queue-head">Queue</div>
+              <div class="queue-item">Axolotl Keycap (Blue) — 1h 12m</div>
+              <div class="queue-item">Lever Cover (Gray) — 54m</div>
+              <div class="queue-item">Glow Ring (Rocker) — 22m</div>
+            </div>
+          </div>
+        </div>
+        <p class="mini center">Demo UI mockup — final product may differ.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2>Stop babysitting your 3D printer.</h2>
+      <p class="sub">
+        Turn orders into a live print queue with AMS-aware color mapping, batching, and optional auto-eject.
+      </p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Auto-queue from your store</h3>
+          <p>New orders become print jobs instantly — no CSVs, no copy-paste.</p>
+        </div>
+        <div class="card">
+          <h3>Hands-off cycles</h3>
+          <p>Start → cool → eject → re-start (with compatible eject hardware) or confirm manually.</p>
+        </div>
+        <div class="card">
+          <h3>AMS-smart</h3>
+          <p>Map variants/colors to AMS slots and set fallback rules if filament runs out.</p>
+        </div>
+        <div class="card">
+          <h3>Order-aware batching</h3>
+          <p>Batch by SKU, deadline, or material to reduce swaps and speed up fulfillment.</p>
+        </div>
+        <div class="card">
+          <h3>Status & alerts</h3>
+          <p>See progress and get notifications on finish, fail, or when attention is needed.</p>
+        </div>
+        <div class="card">
+          <h3>Safe defaults</h3>
+          <p>Cooldown checks and attended modes. Follow standard safety practices for unattended use.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how" class="section alt">
+    <div class="container">
+      <h2>How QueueLoop works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Connect your shop</h4>
+          <p>Link TikTok Shop, Etsy, or Shopify. Choose which products map to which printer presets.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Map SKUs to presets</h4>
+          <p>Select the 3MF/G-code per SKU, scale, and color. AMS slots can auto-map.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Press “Auto”</h4>
+          <p>New orders flow into the queue. Jobs start, finish, and (with eject hardware) the next print begins.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2>Early access pricing</h2>
+      <div class="price-card">
+        <div class="price-head">Founders Plan</div>
+        <div class="price-val">$29<span>/month</span></div>
+        <ul class="price-list">
+          <li>All printers. Full automation.</li>
+          <li>No per-printer fees.</li>
+          <li>Founders price locked for life.</li>
         </ul>
+        <form class="cta" action="https://formspree.io/f/REPLACE" method="POST">
+          <input aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit">Reserve Founders Plan</button>
+        </form>
+        <p class="mini center">You’ll only be charged when the beta starts. Cancel anytime.</p>
+      </div>
+    </div>
+  </section>
 
-        <a href="mailto:contact@queueloop.com" class="cta">Join the Waitlist</a>
-    </main>
+  <!-- FAQ -->
+  <section id="faq" class="section alt">
+    <div class="container">
+      <h2>FAQ</h2>
+      <div class="faq">
+        <details>
+          <summary>Do I need special hardware for auto-eject?</summary>
+          <p>QueueLoop runs with or without it. With compatible eject hardware, prints can push off automatically. Without it, you can still auto-queue and start jobs; you’ll just remove finished parts manually.</p>
+        </details>
+        <details>
+          <summary>Does it work with Bambu AMS?</summary>
+          <p>Yes. Map product variants/colors to AMS slots and set fallback rules.</p>
+        </details>
+        <details>
+          <summary>Which stores are supported?</summary>
+          <p>TikTok Shop and Etsy at launch; Shopify early access; more coming.</p>
+        </details>
+        <details>
+          <summary>Is it safe to run unattended?</summary>
+          <p>QueueLoop includes cooldown checks and attended modes. We recommend standard safety (smoke detection, camera monitoring) and following printer manufacturer guidance.</p>
+        </details>
+        <details>
+          <summary>What does “Founders plan for life” mean?</summary>
+          <p>If you join the beta and become a paying user, your price stays $29/mo as long as your account remains active.</p>
+        </details>
+      </div>
+    </div>
+  </section>
 
-    <footer>
-        &copy; 2025 QueueLoop. All rights reserved.
-    </footer>
+  <!-- FINAL CTA -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>Ready to stop babysitting prints?</h2>
+      <form class="cta" action="https://formspree.io/f/REPLACE" method="POST">
+        <input aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+        <button type="submit">Join the Waitlist</button>
+      </form>
+      <p class="mini">Questions? <a href="mailto:hello@queueloop.com">hello@queueloop.com</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-row">
+    <div>© <span id="y"></span> QueueLoop — Automation for 3D printing</div>
+    <div class="muted">Not affiliated with any printer or marketplace brand.</div>
+  </div>
+</footer>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
