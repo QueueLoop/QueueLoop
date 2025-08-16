@@ -85,4 +85,8 @@ h2{font-size:32px;margin:0 0 10px}
   .grid-3{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
   .nav nav{display:none}
+
+.logo-img {
+  height: 32px; /* adjust as needed */
+  vertical-align: middle;
 }
