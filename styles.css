@@ -85,9 +85,9 @@ h2{font-size:32px;margin:0 0 10px}
   .grid-3{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
   .nav nav{display:none}
-
-.logo-img {
-  max-width: 10px;
-  width: 100%;
-  height: auto;
+}
+.logo-img{
+  height: 28px;   /* controls visual size in the nav */
+  width: auto;    /* keep aspect ratio */
+  display: block; /* avoid baseline gaps */
 }
