@@ -16,7 +16,7 @@
   <meta name="apple-mobile-web-app-title" content="QueueLoop">
   <link rel="manifest" href="/images/site.webmanifest">
   <meta name="theme-color" content="#0B1220">
-  
+
   <meta property="og:title" content="QueueLoop — Turn orders into prints automatically" />
   <meta property="og:description" content="Connect your store to your printers. Auto-queue jobs, AMS-aware color mapping, optional auto-eject." />
   <meta property="og:type" content="website" />
@@ -52,60 +52,96 @@
           QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
           and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
         </p>
-                <!-- ONE FORM: email + (optional) preferences -->
         <form id="join-form" class="cta" action="https://formspree.io/f/mdkdvrdw" method="POST">
-          <!-- top row (email + submit) -->
           <input id="email-main" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
-          <button type="submit">Join the Early-Bird List</button>
-        
-          <!-- redirect & meta -->
           <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
           <input type="hidden" name="submission_type" value="join">
-        
-          <!-- Optional: UTM capture (leave if you want tracking) -->
-          <input type="hidden" name="utm_source" id="utm_source">
-          <input type="hidden" name="utm_medium" id="utm_medium">
-          <input type="hidden" name="utm_campaign" id="utm_campaign">
-          <input type="hidden" name="utm_content" id="utm_content">
+          <button type="submit">Join the Early-Bird List</button>
         </form>
-        
-        <!-- Preferences live *outside* the CTA flex row but are part of the same form via 'form' attribute -->
-        <div class="adv">
+        <form id="adv-form" class="adv" action="https://formspree.io/f/mdkdvrdw" method="POST">
+          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+          <input type="hidden" name="submission_type" value="preferences">
+          <!-- This gets filled from the email field above via JS -->
+          <input type="hidden" name="email" id="email-hidden">
+        <form id="join-form" class="cta stacked" action="https://formspree.io/f/mdkdvrdw" method="POST">
+          <!-- Required -->
+          <input id="email" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+
           <div class="row">
-            <select name="farm_size" form="join-form">
+          <!-- Optional fields -->
+          <div class="adv-inline">
+            <select name="farm_size">
               <option value="">Farm size (optional)</option>
               <option value="1-2">1–2</option>
               <option value="3-5">3–5</option>
               <option value="6-10">6–10</option>
               <option value="10+">10+</option>
             </select>
-        
+
             <div class="chips" aria-label="Printers">
-              <label class="chip"><input type="checkbox" name="printer[]" value="Bambu" form="join-form">Bambu</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Prusa" form="join-form">Prusa</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Creality" form="join-form">Creality</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Voron" form="join-form">Voron</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Other" form="join-form">Other</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Bambu">Bambu</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Prusa">Prusa</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Creality">Creality</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Voron">Voron</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Other">Other</label>
             </div>
           </div>
+
+          <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)"></textarea>
+          <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
+
+          <div class="right">
+            <button type="submit">Save preferences</button>
+          </div>
+          <!-- Tracking / routing -->
+          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+          <input type="hidden" name="submission_type" value="join">
+          <input type="text" name="_gotcha" style="display:none"> <!-- honeypot -->
         
-          <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)" form="join-form"></textarea>
+          <!-- Optional UTM capture -->
+          <input type="hidden" name="utm_source" id="utm_source">
+          <input type="hidden" name="utm_medium" id="utm_medium">
+          <input type="hidden" name="utm_campaign" id="utm_campaign">
+          <input type="hidden" name="utm_content" id="utm_content">
         
-          <label class="inline">
-            <input type="checkbox" name="pilot_interest" value="yes" form="join-form">
-            Apply for pilot
-          </label>
-        </div>
+          <button type="submit">Join the Early-Bird List</button>
+        </form>
         
         <script>
-          // Optional: populate UTM hidden fields if present
+          // Fill UTM fields if present in URL
           (function(){
-            const params = new URLSearchParams(location.search);
-            ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(id=>{
-              const el = document.getElementById(id);
-              if (el) el.value = params.get(id) || '';
+            const emailInput = document.getElementById('email-main');
+            const hiddenEmail = document.getElementById('email-hidden');
+            const advForm = document.getElementById('adv-form');
+        
+            function syncEmail(){
+              if (hiddenEmail && emailInput) hiddenEmail.value = emailInput.value.trim();
+            }
+        
+            // keep synced while typing and right before submit
+            emailInput?.addEventListener('input', syncEmail);
+            advForm?.addEventListener('submit', function(e){
+              syncEmail();
+              // optional: warn if no email yet
+              if (!hiddenEmail.value) {
+                e.preventDefault();
+                alert('Please enter your email above so we can tie your preferences to your signup.');
+                emailInput?.focus();
+              }
+            const p = new URLSearchParams(location.search);
+            ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k=>{
+              const el = document.getElementById(k);
+              if (el) el.value = p.get(k) || '';
             });
           })();
+        </script>
+
+        <script>
+          const t = document.getElementById('toggle-adv');
+          const adv = document.getElementById('adv-form');
+          t?.addEventListener('click', () => {
+            adv.classList.toggle('collapsed');
+          });
         </script>
 
         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
