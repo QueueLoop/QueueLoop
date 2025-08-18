@@ -91,20 +91,24 @@ h2{font-size:32px;margin:0 0 10px}
   width: auto;    /* keep aspect ratio */
   display: block; /* avoid baseline gaps */
 }
-/* Stack fields nicely without feeling heavy */
-.cta.stacked { flex-direction: column; align-items: stretch; gap: 10px }
-.adv-inline { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
-.adv-inline select {
-  background:#0d162a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;padding:12px;min-width:200px
+/* One-form layout that matches your style */
+.cta-and-prefs .cta { display:flex; gap:10px; margin-top:18px }
+.cta-and-prefs .adv{
+  margin-top:14px; padding:14px; border:1px solid rgba(255,255,255,.08);
+  border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
 }
-.chips { display:flex; gap:8px; flex-wrap:wrap }
-.chip {
+.cta-and-prefs .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-start }
+.cta-and-prefs select, .cta-and-prefs textarea{
+  background:#0d162a; border:1px solid rgba(255,255,255,.12); border-radius:10px;
+  color:#fff; padding:12px; min-width:200px;
+}
+.inline{ display:flex; align-items:center; gap:8px; margin-top:10px; color:#cbd5e1 }
+.chips{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+.chip{
   display:inline-flex; align-items:center; gap:6px; padding:6px 10px;
-  border:1px solid rgba(255,255,255,.12); border-radius:999px; color:#cbd5e1; cursor:pointer; user-select:none
+  border:1px solid rgba(255,255,255,.12); border-radius:999px; color:#cbd5e1; cursor:pointer;
 }
-.chip input { accent-color: var(--brand) }
-textarea[name="pain"]{
-  background:#0d162a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;padding:12px
-}
+.chip input{ accent-color:var(--brand) }
+
 
 
