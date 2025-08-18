@@ -52,29 +52,49 @@
           QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
           and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
         </p>
-        <form class="cta" action="https://formspree.io/f/YOUR-ENDPOINT" method="POST">
+        <form class="cta" action="https://formspree.io/f/REPLACE_WITH_YOURS" method="POST">
           <input aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
-        
-          <select name="farm_size" required>
-            <option value="">Farm size</option>
-            <option value="1-2">1–2 printers</option>
-            <option value="3-5">3–5 printers</option>
-            <option value="6-10">6–10 printers</option>
-            <option value="10+">10+ printers</option>
-          </select>
-        
-          <label><input type="checkbox" name="printer[]" value="Bambu"> Bambu</label>
-          <label><input type="checkbox" name="printer[]" value="Prusa"> Prusa</label>
-          <label><input type="checkbox" name="printer[]" value="Creality"> Creality</label>
-          <label><input type="checkbox" name="printer[]" value="Voron"> Voron</label>
-          <label><input type="checkbox" name="printer[]" value="Other"> Other</label>
-        
-          <textarea name="pain" placeholder="Biggest pain point right now?" rows="2"></textarea>
-        
-          <label><input type="checkbox" name="pilot_interest" value="yes"> I’d like to apply for the pilot program</label>
-        
           <button type="submit">Join the Early-Bird List</button>
         </form>
+        <button class="link-ghost" id="toggle-adv">More options</button>
+        
+        <form id="adv-form" class="adv collapsed" action="https://formspree.io/f/mdkdvrdw" method="POST">
+          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+        
+          <div class="row">
+            <select name="farm_size" required>
+              <option value="">Farm size</option>
+              <option value="1-2">1–2</option>
+              <option value="3-5">3–5</option>
+              <option value="6-10">6–10</option>
+              <option value="10+">10+</option>
+            </select>
+        
+            <div class="chips" aria-label="Printers">
+              <label class="chip"><input type="checkbox" name="printer[]" value="Bambu">Bambu</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Prusa">Prusa</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Creality">Creality</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Voron">Voron</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Other">Other</label>
+            </div>
+          </div>
+        
+          <textarea name="pain" rows="2" placeholder="Biggest pain point right now?"></textarea>
+          <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
+        
+          <div class="right">
+            <button type="submit">Save preferences</button>
+          </div>
+        </form>
+        
+        <script>
+          const t = document.getElementById('toggle-adv');
+          const adv = document.getElementById('adv-form');
+          t?.addEventListener('click', () => {
+            adv.classList.toggle('collapsed');
+          });
+        </script>
+
         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
         <div class="badges">
           <span>🔒 LAN control available</span>
@@ -83,7 +103,6 @@
           <span>🧠 Failure-aware modes (optional)</span>
         </div>
       </div>
-
       <div class="hero-card">
         <div class="mock">
           <div class="mock-bar"></div>
