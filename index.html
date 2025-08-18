@@ -52,13 +52,27 @@
           QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
           and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
         </p>
-        <form id="join-form" class="cta stacked" action="https://formspree.io/f/mdkdvrdw" method="POST">
-          <!-- Required -->
-          <input id="email" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+                <!-- ONE FORM: email + (optional) preferences -->
+        <form id="join-form" class="cta" action="https://formspree.io/f/mdkdvrdw" method="POST">
+          <!-- top row (email + submit) -->
+          <input id="email-main" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit">Join the Early-Bird List</button>
         
-          <!-- Optional fields -->
-          <div class="adv-inline">
-            <select name="farm_size">
+          <!-- redirect & meta -->
+          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+          <input type="hidden" name="submission_type" value="join">
+        
+          <!-- Optional: UTM capture (leave if you want tracking) -->
+          <input type="hidden" name="utm_source" id="utm_source">
+          <input type="hidden" name="utm_medium" id="utm_medium">
+          <input type="hidden" name="utm_campaign" id="utm_campaign">
+          <input type="hidden" name="utm_content" id="utm_content">
+        </form>
+        
+        <!-- Preferences live *outside* the CTA flex row but are part of the same form via 'form' attribute -->
+        <div class="adv">
+          <div class="row">
+            <select name="farm_size" form="join-form">
               <option value="">Farm size (optional)</option>
               <option value="1-2">1–2</option>
               <option value="3-5">3–5</option>
@@ -67,48 +81,31 @@
             </select>
         
             <div class="chips" aria-label="Printers">
-              <label class="chip"><input type="checkbox" name="printer[]" value="Bambu">Bambu</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Prusa">Prusa</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Creality">Creality</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Voron">Voron</label>
-              <label class="chip"><input type="checkbox" name="printer[]" value="Other">Other</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Bambu" form="join-form">Bambu</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Prusa" form="join-form">Prusa</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Creality" form="join-form">Creality</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Voron" form="join-form">Voron</label>
+              <label class="chip"><input type="checkbox" name="printer[]" value="Other" form="join-form">Other</label>
             </div>
           </div>
         
-          <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)"></textarea>
-          <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
+          <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)" form="join-form"></textarea>
         
-          <!-- Tracking / routing -->
-          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
-          <input type="hidden" name="submission_type" value="join">
-          <input type="text" name="_gotcha" style="display:none"> <!-- honeypot -->
-        
-          <!-- Optional UTM capture -->
-          <input type="hidden" name="utm_source" id="utm_source">
-          <input type="hidden" name="utm_medium" id="utm_medium">
-          <input type="hidden" name="utm_campaign" id="utm_campaign">
-          <input type="hidden" name="utm_content" id="utm_content">
-        
-          <button type="submit">Join the Early-Bird List</button>
-        </form>
+          <label class="inline">
+            <input type="checkbox" name="pilot_interest" value="yes" form="join-form">
+            Apply for pilot
+          </label>
+        </div>
         
         <script>
-          // Fill UTM fields if present in URL
+          // Optional: populate UTM hidden fields if present
           (function(){
-            const p = new URLSearchParams(location.search);
-            ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k=>{
-              const el = document.getElementById(k);
-              if (el) el.value = p.get(k) || '';
+            const params = new URLSearchParams(location.search);
+            ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(id=>{
+              const el = document.getElementById(id);
+              if (el) el.value = params.get(id) || '';
             });
           })();
-        </script>
-
-        <script>
-          const t = document.getElementById('toggle-adv');
-          const adv = document.getElementById('adv-form');
-          t?.addEventListener('click', () => {
-            adv.classList.toggle('collapsed');
-          });
         </script>
 
         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
