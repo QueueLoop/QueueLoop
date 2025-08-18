@@ -91,3 +91,27 @@ h2{font-size:32px;margin:0 0 10px}
   width: auto;    /* keep aspect ratio */
   display: block; /* avoid baseline gaps */
 }
+.link-ghost{
+  margin-top:10px;background:none;border:0;color:#cde0ff;cursor:pointer;
+  padding:0;font-weight:600
+}
+.adv{
+  margin-top:12px;padding:14px;border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+  transition:max-height .25s ease, opacity .2s ease; overflow:hidden
+}
+.adv.collapsed{ max-height:0; opacity:.0; padding-top:0; padding-bottom:0; border-width:0 }
+.adv .row{ display:flex; gap:10px; flex-wrap:wrap }
+.adv select, .adv textarea{
+  background:#0d162a;border:1px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;
+  padding:12px; min-width:180px; flex:1
+}
+.inline{ display:flex; align-items:center; gap:8px; margin-top:10px; color:#cbd5e1 }
+.right{ display:flex; justify-content:flex-end; margin-top:10px }
+.chips{ display:flex; gap:8px; flex-wrap:wrap }
+.chip{
+  display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid rgba(255,255,255,.12);
+  border-radius:999px; color:#cbd5e1; cursor:pointer; user-select:none
+}
+.chip input{ accent-color:var(--brand) }
+
