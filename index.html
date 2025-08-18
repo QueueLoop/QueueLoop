@@ -52,9 +52,28 @@
           QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
           and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
         </p>
-        <form class="cta" action="https://formspree.io/f/REPLACE" method="POST">
+        <form class="cta" action="https://formspree.io/f/YOUR-ENDPOINT" method="POST">
           <input aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
-          <button type="submit">Join the Waitlist</button>
+        
+          <select name="farm_size" required>
+            <option value="">Farm size</option>
+            <option value="1-2">1–2 printers</option>
+            <option value="3-5">3–5 printers</option>
+            <option value="6-10">6–10 printers</option>
+            <option value="10+">10+ printers</option>
+          </select>
+        
+          <label><input type="checkbox" name="printer[]" value="Bambu"> Bambu</label>
+          <label><input type="checkbox" name="printer[]" value="Prusa"> Prusa</label>
+          <label><input type="checkbox" name="printer[]" value="Creality"> Creality</label>
+          <label><input type="checkbox" name="printer[]" value="Voron"> Voron</label>
+          <label><input type="checkbox" name="printer[]" value="Other"> Other</label>
+        
+          <textarea name="pain" placeholder="Biggest pain point right now?" rows="2"></textarea>
+        
+          <label><input type="checkbox" name="pilot_interest" value="yes"> I’d like to apply for the pilot program</label>
+        
+          <button type="submit">Join the Early-Bird List</button>
         </form>
         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
         <div class="badges">
