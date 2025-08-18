@@ -52,19 +52,12 @@
           QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
           and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
         </p>
-        <form id="join-form" class="cta" action="https://formspree.io/f/mdkdvrdw" method="POST">
-          <input id="email-main" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
-          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
-          <input type="hidden" name="submission_type" value="join">
-          <button type="submit">Join the Early-Bird List</button>
-        </form>
-        <form id="adv-form" class="adv" action="https://formspree.io/f/mdkdvrdw" method="POST">
-          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
-          <input type="hidden" name="submission_type" value="preferences">
-          <!-- This gets filled from the email field above via JS -->
-          <input type="hidden" name="email" id="email-hidden">
+        <form id="join-form" class="cta stacked" action="https://formspree.io/f/mdkdvrdw" method="POST">
+          <!-- Required -->
+          <input id="email" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
         
-          <div class="row">
+          <!-- Optional fields -->
+          <div class="adv-inline">
             <select name="farm_size">
               <option value="">Farm size (optional)</option>
               <option value="1-2">1–2</option>
@@ -85,30 +78,27 @@
           <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)"></textarea>
           <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
         
-          <div class="right">
-            <button type="submit">Save preferences</button>
-          </div>
+          <!-- Tracking / routing -->
+          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+          <input type="hidden" name="submission_type" value="join">
+          <input type="text" name="_gotcha" style="display:none"> <!-- honeypot -->
+        
+          <!-- Optional UTM capture -->
+          <input type="hidden" name="utm_source" id="utm_source">
+          <input type="hidden" name="utm_medium" id="utm_medium">
+          <input type="hidden" name="utm_campaign" id="utm_campaign">
+          <input type="hidden" name="utm_content" id="utm_content">
+        
+          <button type="submit">Join the Early-Bird List</button>
         </form>
+        
         <script>
+          // Fill UTM fields if present in URL
           (function(){
-            const emailInput = document.getElementById('email-main');
-            const hiddenEmail = document.getElementById('email-hidden');
-            const advForm = document.getElementById('adv-form');
-        
-            function syncEmail(){
-              if (hiddenEmail && emailInput) hiddenEmail.value = emailInput.value.trim();
-            }
-        
-            // keep synced while typing and right before submit
-            emailInput?.addEventListener('input', syncEmail);
-            advForm?.addEventListener('submit', function(e){
-              syncEmail();
-              // optional: warn if no email yet
-              if (!hiddenEmail.value) {
-                e.preventDefault();
-                alert('Please enter your email above so we can tie your preferences to your signup.');
-                emailInput?.focus();
-              }
+            const p = new URLSearchParams(location.search);
+            ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k=>{
+              const el = document.getElementById(k);
+              if (el) el.value = p.get(k) || '';
             });
           })();
         </script>
