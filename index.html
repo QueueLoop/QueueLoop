@@ -52,18 +52,21 @@
           QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish,
           and (with compatible hardware) eject on their own. Keep your queue full without lifting a finger.
         </p>
-        <form class="cta" action="https://formspree.io/f/mdkdvrdw" method="POST">
-          <input aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+        <form id="join-form" class="cta" action="https://formspree.io/f/YOUR-ENDPOINT" method="POST">
+          <input id="email-main" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+          <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+          <input type="hidden" name="submission_type" value="join">
           <button type="submit">Join the Early-Bird List</button>
         </form>
-        <button class="link-ghost" id="toggle-adv">More options</button>
-        
-        <form id="adv-form" class="adv collapsed" action="https://formspree.io/f/mdkdvrdw" method="POST">
+        <form id="adv-form" class="adv" action="https://formspree.io/f/YOUR-ENDPOINT" method="POST">
           <input type="hidden" name="_redirect" value="https://www.queueloop.com/thank-you.html">
+          <input type="hidden" name="submission_type" value="preferences">
+          <!-- This gets filled from the email field above via JS -->
+          <input type="hidden" name="email" id="email-hidden">
         
           <div class="row">
-            <select name="farm_size" required>
-              <option value="">Farm size</option>
+            <select name="farm_size">
+              <option value="">Farm size (optional)</option>
               <option value="1-2">1–2</option>
               <option value="3-5">3–5</option>
               <option value="6-10">6–10</option>
@@ -79,14 +82,37 @@
             </div>
           </div>
         
-          <textarea name="pain" rows="2" placeholder="Biggest pain point right now?"></textarea>
+          <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)"></textarea>
           <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
         
           <div class="right">
             <button type="submit">Save preferences</button>
           </div>
         </form>
+        <script>
+          (function(){
+            const emailInput = document.getElementById('email-main');
+            const hiddenEmail = document.getElementById('email-hidden');
+            const advForm = document.getElementById('adv-form');
         
+            function syncEmail(){
+              if (hiddenEmail && emailInput) hiddenEmail.value = emailInput.value.trim();
+            }
+        
+            // keep synced while typing and right before submit
+            emailInput?.addEventListener('input', syncEmail);
+            advForm?.addEventListener('submit', function(e){
+              syncEmail();
+              // optional: warn if no email yet
+              if (!hiddenEmail.value) {
+                e.preventDefault();
+                alert('Please enter your email above so we can tie your preferences to your signup.');
+                emailInput?.focus();
+              }
+            });
+          })();
+        </script>
+
         <script>
           const t = document.getElementById('toggle-adv');
           const adv = document.getElementById('adv-form');
