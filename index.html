@@ -63,7 +63,8 @@
         <form id="queue-form" class="cta-and-prefs" action="https://formspree.io/f/mdkdvrdw" method="POST">
           <!-- Primary: email (required) -->
           <div class="cta">
-            <input id="email" aria-label="Email" type="email" name="email" placeholder="Enter your email" required>
+            <label class="sr-only" for="email">Email</label>
+            <input id="email" type="email" name="email" placeholder="Enter your email" required>
             <!-- (Optional) tag the submission type -->
             <input type="hidden" name="submission_type" value="early_bird">
             <!-- UTM capture -->
@@ -257,6 +258,19 @@
     </div>
   </section>
 
+  <section class="section">
+    <div class="container">
+      <h2>Roadmap</h2>
+      <ul class="price-list">
+        <li><strong>v0:</strong> Orders → Auto-queue by SKU/variant</li>
+        <li><strong>v0.1:</strong> Auto label printing</li>
+        <li><strong>v0.2:</strong> Optional printable eject helpers</li>
+        <li><strong>v1.0:</strong> Resin & laser support (beta)</li>
+      </ul>
+      <p class="mini">Founder note: Built by a print-shop owner to remove the grunt work so you can scale output, not headaches.</p>
+    </div>
+  </section>
+
   <!-- FAQ -->
   <section id="faq" class="section alt">
     <div class="container">
@@ -293,7 +307,10 @@
       <div class="cta">
         <a href="#join" class="btn-link">Join the Waitlist</a>
       </div>
-      <p class="mini">Questions? <a href="mailto:hello@queueloop.com">hello@queueloop.com</a></p>
+      <p class="mini">
+        Questions? <a href="mailto:hello@queueloop.com">contact@queueloop.com</a> ·
+        <a href="https://discord.gg/YOUR_INVITE" target="_blank" rel="noopener">Join our Discord</a>
+      </p>
     </div>
   </section>
 </main>
