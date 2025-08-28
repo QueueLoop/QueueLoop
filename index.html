@@ -72,6 +72,7 @@
             <input type="hidden" name="utm_medium"  id="utm_medium">
             <input type="hidden" name="utm_campaign"id="utm_campaign">
             <input type="hidden" name="utm_content" id="utm_content">
+            <input type="hidden" name="source" id="source">
             <button type="submit">Join the Early-Bird List</button>
           </div>
 
@@ -101,31 +102,29 @@
         </form>
 
         <script>
-          // UTM capture
           (function(){
             const params = new URLSearchParams(location.search);
-            ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(id=>{
+            ['utm_source','utm_medium','utm_campaign','utm_content','source'].forEach(id=>{
               const el = document.getElementById(id);
               if (el) el.value = params.get(id) || '';
             });
           })();
-
+        
           // Custom redirect after submit
           document.getElementById("queue-form").addEventListener("submit", async function(e) {
             e.preventDefault();
-
             const form = e.target;
             const data = new FormData(form);
-
+        
             try {
               const response = await fetch(form.action, {
                 method: form.method,
                 body: data,
                 headers: { 'Accept': 'application/json' }
               });
-
+        
               if (response.ok) {
-                window.location.href = "/thank-you.html";  // <- your thank-you page
+                window.location.href = "/thank-you.html";
               } else {
                 alert("Oops, something went wrong. Please try again.");
               }
@@ -134,7 +133,7 @@
             }
           });
         </script>
-
+        
         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
         <div class="badges">
           <span>🔒 LAN control available</span>
