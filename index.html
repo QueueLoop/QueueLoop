@@ -101,53 +101,6 @@
           </div>
         </form>
 
-        <script>
-          // UTM + source/src capture
-          (function(){
-            const params = new URLSearchParams(location.search);
-
-            function setHidden(id, val){
-              const el = document.getElementById(id);
-              if (el) el.value = val || '';
-            }
-
-            // Accept either ?src= or ?source=
-            const srcParam = params.get('src') || params.get('source') || '';
-
-            // Fill UTMs; if utm_source missing, fall back to src/source
-            setHidden('utm_source',   params.get('utm_source')   || srcParam);
-            setHidden('utm_medium',   params.get('utm_medium')   || '');
-            setHidden('utm_campaign', params.get('utm_campaign') || '');
-            setHidden('utm_content',  params.get('utm_content')  || '');
-
-            // Keep a simple "source" for Formspree readability
-            setHidden('source', srcParam);
-          })();
-
-          // Custom redirect after submit (Formspree fetch)
-          document.getElementById("queue-form").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = new FormData(form);
-
-            try {
-              const response = await fetch(form.action, {
-                method: form.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-              });
-
-              if (response.ok) {
-                window.location.href = "/thank-you.html";
-              } else {
-                alert("Oops, something went wrong. Please try again.");
-              }
-            } catch (error) {
-              alert("Network error. Please try again.");
-            }
-          });
-        </script>
-
         
         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
         <div class="badges">
@@ -313,6 +266,64 @@
 </footer>
 <script>
   document.getElementById('y').textContent = new Date().getFullYear();
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    console.log('[Init] DOMContentLoaded');
+
+    // --- Populate hidden fields from URL params ---
+    const params = new URLSearchParams(window.location.search);
+    const getParam = (name) => params.get(name) || '';
+    const srcParam = getParam('src') || getParam('source');
+
+    const fields = {
+      utm_source:   getParam('utm_source') || srcParam,
+      utm_medium:   getParam('utm_medium'),
+      utm_campaign: getParam('utm_campaign'),
+      utm_content:  getParam('utm_content'),
+      source:       srcParam
+    };
+
+    Object.entries(fields).forEach(([id, value]) => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.value = value;
+        console.log(`[UTM] ${id} = "${value}"`);
+      } else {
+        console.warn(`[UTM] Missing field: ${id}`);
+      }
+    });
+
+    // --- Intercept submit and send to Formspree ---
+    const form = document.getElementById('queue-form');
+    if (!form) {
+      console.error('Form not found: #queue-form');
+      return;
+    }
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      console.log('[Submit] sending form');
+      try {
+        const response = await fetch(form.action, {
+          method: form.method || 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        console.log('[Submit] response status', response.status);
+        if (response.ok) {
+          window.location.assign('/thank-you.html');
+        } else {
+          console.error('[Submit] server error', response.status);
+          alert('Oops, something went wrong. Please try again.');
+        }
+      } catch (err) {
+        console.error('[Submit] network error', err);
+        alert('Network error. Please try again.');
+      }
+    });
+  });
 </script>
 </body>
 </html>
