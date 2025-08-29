@@ -1,318 +1,196 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QueueLoop — Turn orders into prints automatically</title>
-  <meta name="description" content="QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so jobs start, finish, and (with compatible printed hardware) eject on their own. Keep your queue full without lifting a finger." />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Favicons -->
-  <link rel="icon" type="image/png" href="/images/favicon-96x96.png" sizes="96x96">
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-  <link rel="shortcut icon" href="/images/favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-title" content="QueueLoop">
-  <link rel="manifest" href="/images/site.webmanifest">
-  <meta name="theme-color" content="#0B1220">
-
-  <meta property="og:title" content="QueueLoop — Turn orders into prints automatically" />
-  <meta property="og:description" content="Connect your store to your printers. Auto-queue jobs, AMS-aware color mapping, optional auto-eject." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.queueloop.com">
-  <meta property="og:image" content="https://www.queueloop.com/images/og.jpg">
-  <link rel="canonical" href="https://www.queueloop.com">
-  <!-- Analytics / Pixels placeholders -->
-  <!-- <script>/* GA4 / TikTok Pixel here later */</script> -->
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-EQ17KEYQGE"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-EQ17KEYQGE');
-  </script>
-</head>
-<body>
-<header class="nav">
-  <div class="container nav-row">
-    <div class="brand">
-      <img src="images/Adobe Express - file.png" alt="QueueLoop Logo" class="logo-img">
-      <span class="brand-text">QueueLoop</span>
-    </div>
-    <nav>
-      <a href="#features">Features</a>
-      <a href="#how">How it works</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <!-- HERO -->
-  <section id="join" class="hero">
-    <div class="container hero-grid">
-      <div>
-        <h1>Turn your print farm into an automated factory</h1>
-        <p class="lead">
-          QueueLoop connects your TikTok/Etsy/Shopify store to your 3D printers so orders start, finish,
-          and eject on their own. Keep your queue full without lifting a finger.
-        </p>
-        <form id="queue-form" class="cta-and-prefs" action="https://formspree.io/f/mdkdvrdw" method="POST">
-          <!-- Primary: email (required) -->
-          <div class="cta">
-            <label class="sr-only" for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="Enter your email" required>
-            <!-- (Optional) tag the submission type -->
-            <input type="hidden" name="submission_type" value="early_bird">
-            <!-- UTM capture -->
-            <input type="hidden" name="utm_source"  id="utm_source">
-            <input type="hidden" name="utm_medium"  id="utm_medium">
-            <input type="hidden" name="utm_campaign" id="utm_campaign">
-            <input type="hidden" name="utm_content" id="utm_content">
-            <input type="hidden" name="source" id="source">
-            <button type="submit">Join the Early-Bird List</button>
-          </div>
-
-          <!-- Preferences: completely optional -->
-          <div class="adv">
-            <div class="row">
-              <select name="farm_size">
-                <option value="">Farm size (optional)</option>
-                <option value="1-2">1–2</option>
-                <option value="3-5">3–5</option>
-                <option value="6-10">6–10</option>
-                <option value="10+">10+</option>
-              </select>
-
-              <div class="chips" aria-label="Printers">
-                <label class="chip"><input type="checkbox" name="printer[]" value="Bambu">Bambu</label>
-                <label class="chip"><input type="checkbox" name="printer[]" value="Prusa">Prusa</label>
-                <label class="chip"><input type="checkbox" name="printer[]" value="Creality">Creality</label>
-                <label class="chip"><input type="checkbox" name="printer[]" value="Voron">Voron</label>
-                <label class="chip"><input type="checkbox" name="printer[]" value="Other">Other</label>
-              </div>
-            </div>
-
-            <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)"></textarea>
-            <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
-          </div>
-        </form>
-
-        <script>
-          // UTM + source/src capture
-          (function(){
-            const params = new URLSearchParams(location.search);
-
-            function setHidden(id, val){
-              const el = document.getElementById(id);
-              if (el) el.value = val || '';
-            }
-
-            // Accept either ?src= or ?source=
-            const srcParam = params.get('src') || params.get('source') || '';
-
-            // Fill UTMs; if utm_source missing, fall back to src/source
-            setHidden('utm_source',   params.get('utm_source')   || srcParam);
-            setHidden('utm_medium',   params.get('utm_medium')   || '');
-            setHidden('utm_campaign', params.get('utm_campaign') || '');
-            setHidden('utm_content',  params.get('utm_content')  || '');
-
-            // Keep a simple "source" for Formspree readability
-            setHidden('source', srcParam);
-          })();
-
-          // Custom redirect after submit (Formspree fetch)
-          document.getElementById("queue-form").addEventListener("submit", async function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const data = new FormData(form);
-
-            try {
-              const response = await fetch(form.action, {
-                method: form.method,
-                body: data,
-                headers: { 'Accept': 'application/json' }
-              });
-
-              if (response.ok) {
-                window.location.href = "/thank-you.html";
-              } else {
-                alert("Oops, something went wrong. Please try again.");
-              }
-            } catch (error) {
-              alert("Network error. Please try again.");
-            }
-          });
-        </script>
-
-        
-        <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
-        <div class="badges">
-          <span>🔒 LAN control available</span>
-          <span>⚙️ AMS-aware workflows</span>
-          <span>🚀 Built for TikTok & Etsy sellers</span>
-          <span>🧠 Failure-aware modes (optional)</span>
-        </div>
-      </div>
-      <div class="hero-card">
-        <img src="images/ui.png" alt="QueueLoop demo UI" class="ui-demo">
-        <p class="mini center">Demo UI — final product may differ.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section id="features" class="section">
-    <div class="container">
-      <h2>Stop babysitting your 3D printer.</h2>
-      <p class="sub">
-        Turn orders into a live print queue with AMS-aware color mapping, batching, and optional auto-eject.
-      </p>
-      <div class="grid-3">
-        <div class="card">
-          <h3>Auto-queue from your store</h3>
-          <p>New orders become print jobs instantly — no CSVs, no copy-paste.</p>
-        </div>
-        <div class="card">
-          <h3>Hands-off cycles</h3>
-          <p>Start → cool → eject → re-start (with compatible eject hardware) or confirm manually.</p>
-        </div>
-        <div class="card">
-          <h3>AMS-smart</h3>
-          <p>Map variants/colors to AMS slots and set fallback rules if filament runs out.</p>
-        </div>
-        <div class="card">
-          <h3>Order-aware batching</h3>
-          <p>Batch by SKU, deadline, or material to reduce swaps and speed up fulfillment.</p>
-        </div>
-        <div class="card">
-          <h3>Status & alerts</h3>
-          <p>See progress and get notifications on finish, fail, or when attention is needed.</p>
-        </div>
-        <div class="card">
-          <h3>Safe defaults</h3>
-          <p>Cooldown checks and attended modes. Follow standard safety practices for unattended use.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how" class="section alt">
-    <div class="container">
-      <h2>How QueueLoop works</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h4>Connect your shop</h4>
-          <p>Link TikTok Shop, Etsy, or Shopify. Choose which products map to which printer presets.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h4>Map SKUs to presets</h4>
-          <p>Select the 3MF/G-code per SKU, scale, and color. AMS slots can auto-map.</p>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h4>Press “Auto”</h4>
-          <p>New orders flow into the queue. Jobs start, finish, and (with printable eject hardware) the next print begins.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section id="pricing" class="section">
-    <div class="container">
-      <h2>Early access pricing</h2>
-      <div class="price-card">
-        <div class="price-head">Founders Plan</div>
-        <ul class="price-list">
-          <li>All printers. Full automation.</li>
-          <li>No per-printer fees.</li>
-          <li>Founders price locked for life.</li>
-        </ul>
-        <div class="cta">
-          <a href="#join" class="btn-link">Reserve Founders Plan</a>
-        </div>
-        <p class="mini center">You’ll only be charged when the beta starts. Cancel anytime.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <h2>Roadmap</h2>
-      <ul class="price-list">
-        <li><strong>v0:</strong> Orders → Auto-queue by SKU/variant</li>
-        <li><strong>v0.1:</strong> Auto label printing</li>
-        <li><strong>v0.2:</strong> Optional printable eject helpers</li>
-        <li><strong>v1.0:</strong> Resin & laser support (beta)</li>
-        
-      </ul>
-      <br>
-      <h4>Founder's Note:</h4>
-      <h5>I run a small 3D print farm and am building QueueLoop because I was tired of
-      babysitting machines instead of growing my shop. My goal is simple: help makers
-      spend less time working <em>for</em> their business more time working <em>on</em> their business.</h5>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section id="faq" class="section alt">
-    <div class="container">
-      <h2>FAQ</h2>
-      <div class="faq">
-        <details>
-          <summary>Do I need special hardware for auto-eject?</summary>
-          <p>QueueLoop runs with or without it. With compatible eject hardware, prints can push off automatically. Without it, you can still auto-queue and start jobs; you’ll just remove finished parts manually.</p>
-        </details>
-        <details>
-          <summary>Does it work with Bambu AMS?</summary>
-          <p>Yes. Map product variants/colors to AMS slots and set fallback rules.</p>
-        </details>
-        <details>
-          <summary>Which stores are supported?</summary>
-          <p>TikTok Shop and Etsy at launch; Shopify early access; more coming.</p>
-        </details>
-        <details>
-          <summary>Is it safe to run unattended?</summary>
-          <p>QueueLoop includes cooldown checks and attended modes. We recommend standard safety (smoke detection, camera monitoring) and following printer manufacturer guidance.</p>
-        </details>
-        <details>
-          <summary>What does “Founders plan for life” mean?</summary>
-          <p>If you join the beta and become a paying user, your price stays $29/mo as long as your account remains active.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section class="cta-final">
-    <div class="container">
-      <h2>Ready to stop babysitting prints?</h2>
-      <div class="cta">
-        <a href="#join" class="btn-link">Join the Waitlist</a>
-      </div>
-      <p class="mini">
-        Questions? <a href="mailto:hello@queueloop.com">contact@queueloop.com</a> ·
-        <a href="https://discord.gg/YOUR_INVITE" target="_blank" rel="noopener">Join our Discord</a>
-      </p>
-    </div>
-  </section>
-</main>
-
-<footer class="footer">
-  <div class="container footer-row">
-    <div>© <span id="y"></span> QueueLoop — Automation for 3D printing</div>
-    <div class="muted">Not affiliated with any printer or marketplace brand.</div>
-  </div>
-</footer>
-<script>
-  document.getElementById('y').textContent = new Date().getFullYear();
-</script>
-</body>
-</html>
+ (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
+diff --git a/index.html b/index.html
+index deb6af1de117bc12cf4615c0874e676be998a6b3..e640a2b7a7da22e14b2dbc0d61930b66aa4af278 100644
+--- a/index.html
++++ b/index.html
+@@ -79,97 +79,50 @@
+           <!-- Preferences: completely optional -->
+           <div class="adv">
+             <div class="row">
+               <select name="farm_size">
+                 <option value="">Farm size (optional)</option>
+                 <option value="1-2">1–2</option>
+                 <option value="3-5">3–5</option>
+                 <option value="6-10">6–10</option>
+                 <option value="10+">10+</option>
+               </select>
+ 
+               <div class="chips" aria-label="Printers">
+                 <label class="chip"><input type="checkbox" name="printer[]" value="Bambu">Bambu</label>
+                 <label class="chip"><input type="checkbox" name="printer[]" value="Prusa">Prusa</label>
+                 <label class="chip"><input type="checkbox" name="printer[]" value="Creality">Creality</label>
+                 <label class="chip"><input type="checkbox" name="printer[]" value="Voron">Voron</label>
+                 <label class="chip"><input type="checkbox" name="printer[]" value="Other">Other</label>
+               </div>
+             </div>
+ 
+             <textarea name="pain" rows="2" placeholder="Biggest pain point right now? (optional)"></textarea>
+             <label class="inline"><input type="checkbox" name="pilot_interest" value="yes"> Apply for pilot</label>
+           </div>
+         </form>
+ 
+-        <script>
+-          // UTM + source/src capture
+-          (function(){
+-            const params = new URLSearchParams(location.search);
+-
+-            function setHidden(id, val){
+-              const el = document.getElementById(id);
+-              if (el) el.value = val || '';
+-            }
+-
+-            // Accept either ?src= or ?source=
+-            const srcParam = params.get('src') || params.get('source') || '';
+-
+-            // Fill UTMs; if utm_source missing, fall back to src/source
+-            setHidden('utm_source',   params.get('utm_source')   || srcParam);
+-            setHidden('utm_medium',   params.get('utm_medium')   || '');
+-            setHidden('utm_campaign', params.get('utm_campaign') || '');
+-            setHidden('utm_content',  params.get('utm_content')  || '');
+-
+-            // Keep a simple "source" for Formspree readability
+-            setHidden('source', srcParam);
+-          })();
+-
+-          // Custom redirect after submit (Formspree fetch)
+-          document.getElementById("queue-form").addEventListener("submit", async function(e) {
+-            e.preventDefault();
+-            const form = e.target;
+-            const data = new FormData(form);
+-
+-            try {
+-              const response = await fetch(form.action, {
+-                method: form.method,
+-                body: data,
+-                headers: { 'Accept': 'application/json' }
+-              });
+-
+-              if (response.ok) {
+-                window.location.href = "/thank-you.html";
+-              } else {
+-                alert("Oops, something went wrong. Please try again.");
+-              }
+-            } catch (error) {
+-              alert("Network error. Please try again.");
+-            }
+-          });
+-        </script>
+-
+         
+         <p class="mini">By joining, you agree to be contacted about early access and product updates.</p>
+         <div class="badges">
+           <span>🔒 LAN control available</span>
+           <span>⚙️ AMS-aware workflows</span>
+           <span>🚀 Built for TikTok & Etsy sellers</span>
+           <span>🧠 Failure-aware modes (optional)</span>
+         </div>
+       </div>
+       <div class="hero-card">
+         <img src="images/ui.png" alt="QueueLoop demo UI" class="ui-demo">
+         <p class="mini center">Demo UI — final product may differ.</p>
+       </div>
+     </div>
+   </section>
+ 
+   <!-- FEATURES -->
+   <section id="features" class="section">
+     <div class="container">
+       <h2>Stop babysitting your 3D printer.</h2>
+       <p class="sub">
+         Turn orders into a live print queue with AMS-aware color mapping, batching, and optional auto-eject.
+       </p>
+       <div class="grid-3">
+         <div class="card">
+diff --git a/index.html b/index.html
+index deb6af1de117bc12cf4615c0874e676be998a6b3..e640a2b7a7da22e14b2dbc0d61930b66aa4af278 100644
+--- a/index.html
++++ b/index.html
+@@ -292,27 +245,85 @@
+ 
+   <!-- FINAL CTA -->
+   <section class="cta-final">
+     <div class="container">
+       <h2>Ready to stop babysitting prints?</h2>
+       <div class="cta">
+         <a href="#join" class="btn-link">Join the Waitlist</a>
+       </div>
+       <p class="mini">
+         Questions? <a href="mailto:hello@queueloop.com">contact@queueloop.com</a> ·
+         <a href="https://discord.gg/YOUR_INVITE" target="_blank" rel="noopener">Join our Discord</a>
+       </p>
+     </div>
+   </section>
+ </main>
+ 
+ <footer class="footer">
+   <div class="container footer-row">
+     <div>© <span id="y"></span> QueueLoop — Automation for 3D printing</div>
+     <div class="muted">Not affiliated with any printer or marketplace brand.</div>
+   </div>
+ </footer>
+ <script>
+   document.getElementById('y').textContent = new Date().getFullYear();
+ </script>
++
++<script>
++  document.addEventListener('DOMContentLoaded', function () {
++    console.log('[Init] DOMContentLoaded');
++
++    // --- Populate hidden fields from URL params ---
++    const params = new URLSearchParams(window.location.search);
++    const getParam = (name) => params.get(name) || '';
++    const srcParam = getParam('src') || getParam('source');
++
++    const fields = {
++      utm_source:   getParam('utm_source') || srcParam,
++      utm_medium:   getParam('utm_medium'),
++      utm_campaign: getParam('utm_campaign'),
++      utm_content:  getParam('utm_content'),
++      source:       srcParam
++    };
++
++    Object.entries(fields).forEach(([id, value]) => {
++      const el = document.getElementById(id);
++      if (el) {
++        el.value = value;
++        console.log(`[UTM] ${id} = "${value}"`);
++      } else {
++        console.warn(`[UTM] Missing field: ${id}`);
++      }
++    });
++
++    // --- Intercept submit and send to Formspree ---
++    const form = document.getElementById('queue-form');
++    if (!form) {
++      console.error('Form not found: #queue-form');
++      return;
++    }
++
++    form.addEventListener('submit', async function (e) {
++      e.preventDefault();
++      console.log('[Submit] sending form');
++      try {
++        const response = await fetch(form.action, {
++          method: form.method || 'POST',
++          body: new FormData(form),
++          headers: { 'Accept': 'application/json' }
++        });
++        console.log('[Submit] response status', response.status);
++        if (response.ok) {
++          window.location.assign('/thank-you.html');
++        } else {
++          console.error('[Submit] server error', response.status);
++          alert('Oops, something went wrong. Please try again.');
++        }
++      } catch (err) {
++        console.error('[Submit] network error', err);
++        alert('Network error. Please try again.');
++      }
++    });
++  });
++</script>
+ </body>
+ </html>
+ 
+EOF
+)
